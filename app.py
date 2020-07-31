@@ -85,6 +85,8 @@ def run():
             file_name = file['filename']
             file_type = file['type']
             file_url = file['url']
+            #just for debugging
+            file_url = os.path.join(cwd, "darpa_template.xlsx")
             data = str(file)
            
             converted_file_name = f"{file_name}.converted"
@@ -96,9 +98,11 @@ def run():
             nrows = 8
             description_row = 9
             
-            filled_library, filled_library_metadata, filled_description = read_library(file_url, 
-                start_row = start_row, nrows = nrows, description_row = description_row)
-            
+            try: 
+                filled_library, filled_library_metadata, filled_description = read_library(file_url, 
+                    start_row = start_row, nrows = nrows, description_row = description_row)
+            except Exception as e:
+                abort(400)
             blank_library, blank_library_metadata, blank_description = read_library(file_path,  
                 start_row = start_row, nrows = nrows, description_row = description_row)
             
