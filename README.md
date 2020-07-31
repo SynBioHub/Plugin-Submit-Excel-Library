@@ -1,4 +1,4 @@
-## Spreadsheet Plug-in for SynBioHub
+## Spreadsheet Plugin for SynBioHub
 
 Synthetic Biology is a discipline that connects many disciplines and heterogeneous researchers.
 To be useful as a tool, a platform such as SynBioHub should reflect this diversity. SynBioHub is
