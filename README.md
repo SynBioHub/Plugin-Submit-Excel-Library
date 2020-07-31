@@ -1,4 +1,3 @@
-# GSoC2020
 ## Spreadsheet Plug-in for SynBioHub
 
 Synthetic Biology is a discipline that connects many disciplines and heterogeneous researchers.
@@ -20,7 +19,7 @@ A very simple submit plugin that returns sbol files with submit information
 
 # Install
 ## Docker
-Run `docker run --publish 8093:5000 --detach --name submit-plug synbiohub/plugin-submit-excel:snapshot`
+Run `docker run --publish 8093:5000 --detach --name submit-plug synbiohub/plugin-submit-excel-library:snapshot`
 Check it is up using http://localhost:8093/status.
 
 ## Using Python
