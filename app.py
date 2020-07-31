@@ -1,5 +1,6 @@
 from flask import Flask, request, abort, send_file, jsonify
 import os, shutil, glob, random, string
+import pandas as pd
 from Excel import read_library, quality_check, write_sbol
 from sbol2 import *
 #import all functions from .py files
@@ -105,8 +106,9 @@ def run():
             quality_check(filled_library, blank_library, filled_library_metadata, 
                           blank_library_metadata, filled_description, blank_description)
             
-            
-            doc = write_sbol(filled_library, filled_library_metadata, filled_description)
+            ontology = pd.read_excel(file_path, header=None, sheet_name= "Ontology Terms", skiprows=3, index_col=0)
+            ontology= ontology.to_dict("dict")[1]
+            doc = write_sbol(filled_library, filled_library_metadata, filled_description, ontology)
             
             doc.write(file_path_out)
             ################## END SECTION ####################################
