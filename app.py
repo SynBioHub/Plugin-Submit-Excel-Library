@@ -98,21 +98,16 @@ def run():
             nrows = 8
             description_row = 9
             
-            try:
-                filled_library, filled_library_metadata, filled_description = read_library(file_url, 
-                    start_row = start_row, nrows = nrows, description_row = description_row)
-            except Exception as e:
-                print(e)
-                abort(402)
-            try:
-                blank_library, blank_library_metadata, blank_description = read_library(file_path,  
-                    start_row = start_row, nrows = nrows, description_row = description_row)
-            except Exception as f:
-                print(f)
-                abort(405)
+
+            filled_library, filled_library_metadata, filled_description = read_library(file_url, 
+                        start_row = start_row, nrows = nrows, description_row = description_row)
+
+            blank_library, blank_library_metadata, blank_description = read_library(file_path,  
+                        start_row = start_row, nrows = nrows, description_row = description_row)
             try:
                 quality_check(filled_library, blank_library, filled_library_metadata, 
-                          blank_library_metadata, filled_description, blank_description)
+                          blank_library_metadata, filled_description, blank_description,
+                          nrows=nrows, description_row=description_row)
             except Exception as g:
                 print(g)
                 abort(406)

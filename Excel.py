@@ -95,7 +95,7 @@ def read_library(path, start_row, nrows, description_row, use_cols = [0, 1],
 
 #Description
 def quality_check(filled_library, blank_library, filled_metadata, blank_metadata, filled_description,
-                  blank_description, use_cols = [0,1]):
+                  blank_description, nrows, description_row, description_col=[0], use_cols = [0,1]):
     """
     the function compares the edited excel spreadsheet with the template
 
@@ -113,6 +113,12 @@ def quality_check(filled_library, blank_library, filled_metadata, blank_metadata
         Dataframe containing the description data
     blank_description : DATAFRAME
         Dataframe containing the description template
+    nrows: INTEGER
+        Defines number of rows to be read for the metadata section
+    description_row: INTEGER
+        Defines the row where the description is situated
+    description_col: INTEGER, default = 0
+        Defines which column the description is in
     usecols: LIST, default = [0, 1]
         Defines which columns were used read for the metadata section (note column A is 0)
 
@@ -135,7 +141,7 @@ def quality_check(filled_library, blank_library, filled_metadata, blank_metadata
         logging.warning(f"{col}{description_row+1} has been corrupted, it should be labelled 'Design Description' with the description in A11")
     
     #Metadata
-    comparison = np.where((filled_library_metadata == blank_library_metadata)|(blank_library_metadata.isna()), True, False)
+    comparison = np.where((filled_metadata == blank_metadata)|(blank_metadata.isna()), True, False)
     excel_cell_names = []
     for column in range(0, len(use_cols)):
         for row in range(0, comparison.shape[0]):
@@ -148,9 +154,9 @@ def quality_check(filled_library, blank_library, filled_metadata, blank_metadata
     if not(comparison.all()) :
         logging.warning("Some cells do not match the template")
         for number in range(0, nrows-1) :
-            if filled_library_metadata.iloc[number, 0] != blank_library_metadata.iloc[number, 0]:
+            if filled_metadata.iloc[number, 0] != blank_metadata.iloc[number, 0]:
                 logging.warning(f"""The excel cell {excel_cell_names.loc[number, 0]} has been corrupted and 
-                      should contain {blank_library_metadata.iloc[number, 0]}""")
+                      should contain {blank_metadata.iloc[number, 0]}""")
                       
     #Library data
     filled_columns = set(filled_library.columns)
