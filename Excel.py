@@ -19,9 +19,9 @@ from sbol2 import Document, Component, ComponentDefinition
 from sbol2 import BIOPAX_DNA, Sequence, SBOL_ENCODING_IUPAC, Config
 
 
-cwd = os.path.dirname(os.path.abspath("__file__")) #get current working directory
-path_blank = os.path.join(cwd, "templates/darpa_template_blank.xlsx")
-path_filled = os.path.join(cwd, "darpa_template.xlsx")
+#cwd = os.path.dirname(os.path.abspath("__file__")) #get current working directory
+#path_blank = os.path.join(cwd, "templates/darpa_template_blank.xlsx")
+#path_filled = os.path.join(cwd, "darpa_template.xlsx")
 
 
 #Read in template and filled spreadsheet for the Parts library
@@ -77,18 +77,18 @@ def read_library(path, start_row, nrows, description_row, use_cols = [0, 1],
     return (basic_DNA_parts, metadata, description)
 
 #Values for specific darpa.template
-start_row = 13
-nrows = 8
-description_row = 9
+#start_row = 13
+#nrows = 8
+#description_row = 9
 
-filled_library, filled_library_metadata, filled_description = read_library(path_filled,  
-                start_row = start_row, nrows = nrows, description_row = description_row)
-blank_library, blank_library_metadata, blank_description = read_library(path_blank,  
-                start_row = start_row, nrows = nrows, description_row = description_row)
+#filled_library, filled_library_metadata, filled_description = read_library(path_filled,  
+#                start_row = start_row, nrows = nrows, description_row = description_row)
+#blank_library, blank_library_metadata, blank_description = read_library(path_blank,  
+#                start_row = start_row, nrows = nrows, description_row = description_row)
 
 
-ontology = pd.read_excel(path_filled, header=None, sheet_name= "Ontology Terms", skiprows=3, index_col=0)
-ontology= ontology.to_dict("dict")[1]
+#ontology = pd.read_excel(path_filled, header=None, sheet_name= "Ontology Terms", skiprows=3, index_col=0)
+#ontology= ontology.to_dict("dict")[1]
 
 
 #Quality control spreadsheet
@@ -163,9 +163,9 @@ def quality_check(filled_library, blank_library, filled_metadata, blank_metadata
 quality_check(filled_library, blank_library, filled_library_metadata, blank_library_metadata, filled_description, blank_description)
 
 #Create SBOL document
-def write_sbol(filled_library, filled_library_metadata, filled_description, molecule_type = BIOPAX_DNA,
+def write_sbol(filled_library, filled_library_metadata, filled_description, ontology, molecule_type = BIOPAX_DNA,
                part_column = "Part Name", sequence_column = "Sequence", description_column = "Description (Optional)",
-               role_column = "Role", length_column = "length (bp)" ):
+               role_column = "Role", length_column = "length (bp)"):
     """
     the function reads an excel spreadsheet and converts it into valid sbol
 
@@ -177,6 +177,7 @@ def write_sbol(filled_library, filled_library_metadata, filled_description, mole
         Dataframe containing the metadata
     filled_description : DATAFRAME
         Dataframe containing the description data
+    ***ONTOLOGY
     molecule_type : STRING, default = BIOPAX_DNA
         Molecule type
     part_column : STRING, default = "Part Name"
@@ -206,12 +207,12 @@ def write_sbol(filled_library, filled_library_metadata, filled_description, mole
     
     #Define SBOL object and components
     #Parts Library
-    molecule_type = BIOPAX_DNA #Change later
-    part_column = "Part Name"
-    sequence_column = "Sequence"
-    description_column = "Description (Optional)"
-    role_column = "Role"
-    length_column = "length (bp)"
+    #molecule_type = BIOPAX_DNA #Change later
+    #part_column = "Part Name"
+    #sequence_column = "Sequence"
+    #description_column = "Description (Optional)"
+    #role_column = "Role"
+    #length_column = "length (bp)"
     
     for index, row in filled_library.iterrows():
         component = ComponentDefinition(row[part_column], molecule_type)
@@ -238,4 +239,4 @@ def write_sbol(filled_library, filled_library_metadata, filled_description, mole
     
     return(doc)
     
-Doc = write_sbol(filled_library, filled_library_metadata, filled_description)
+#Doc = write_sbol(filled_library, filled_library_metadata, filled_description)
