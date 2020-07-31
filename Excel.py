@@ -159,8 +159,8 @@ def quality_check(filled_library, blank_library, filled_metadata, blank_metadata
     if not(blank_columns.issubset(filled_columns)) :
         missing_columns = blank_columns - filled_columns
         logging.warning(f"Some of the required columns are missing. They are {missing_columns}.")
-
-quality_check(filled_library, blank_library, filled_library_metadata, blank_library_metadata, filled_description, blank_description)
+    return
+#quality_check(filled_library, blank_library, filled_library_metadata, blank_library_metadata, filled_description, blank_description)
 
 #Create SBOL document
 def write_sbol(filled_library, filled_library_metadata, filled_description, ontology, molecule_type = BIOPAX_DNA,
