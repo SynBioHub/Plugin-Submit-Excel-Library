@@ -101,14 +101,20 @@ def run():
             try:
                 filled_library, filled_library_metadata, filled_description = read_library(file_url, 
                     start_row = start_row, nrows = nrows, description_row = description_row)
-
-                blank_library, blank_library_metadata, blank_description = read_library(file_path,  
-                    start_row = start_row, nrows = nrows, description_row = description_row)
-            
-                quality_check(filled_library, blank_library, filled_library_metadata, 
-                          blank_library_metadata, filled_description, blank_description)
             except Exception as e:
                 print(e)
+                abort(402)
+            try:
+                blank_library, blank_library_metadata, blank_description = read_library(file_path,  
+                    start_row = start_row, nrows = nrows, description_row = description_row)
+            except Exception as f:
+                print(f)
+                abort(405)
+            try:
+                quality_check(filled_library, blank_library, filled_library_metadata, 
+                          blank_library_metadata, filled_description, blank_description)
+            except Exception as g:
+                print(g)
                 abort(406)
             try:
                 ontology = pd.read_excel(file_path, header=None, sheet_name= "Ontology Terms", skiprows=3, index_col=0)
@@ -121,9 +127,9 @@ def run():
                 # add name of converted file to manifest
                 run_response_manifest["results"].append({"filename":converted_file_name,
                                         "sources":[file_name]})
-            except Exception as f:
-                print(f)
-                abort(402)
+            except Exception as h:
+                print(h)
+                abort(404)
         # except Exception as e:
         #     print(e)
         #     abort(415)
