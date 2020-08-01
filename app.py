@@ -22,6 +22,7 @@ def evaluate():
     files = eval_manifest['manifest']['files']
     
     #temp
+    cwd = os.getcwd()
     data = str(eval_manifest)
     with open(os.path.join(cwd,"eval_manifest_recieved.txt"), 'w') as temp:
         manifest_file.write(data) 
