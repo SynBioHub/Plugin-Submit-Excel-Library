@@ -86,6 +86,10 @@ def run():
             file_type = file['type']
             file_url = file['url']
             data = str(file)
+            
+            #TEMP
+            with open(os.path.join(cwd,"manifest_recieved.txt"), 'w') as temp:
+                manifest_file.write(data) 
            
             converted_file_name = f"{file_name}.converted"
             file_path_out = os.path.join(zip_path_in, converted_file_name)

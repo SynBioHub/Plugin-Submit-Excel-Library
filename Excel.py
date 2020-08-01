@@ -241,7 +241,7 @@ def write_sbol(filled_library, filled_library_metadata, filled_description, onto
     doc.description = str(filled_description.values)
     doc.name = filled_library_metadata.iloc[0, 1]
     
-    doc.write('SBOL_testcollection.xml')
+    # doc.write('SBOL_testcollection.xml')
     
     return(doc)
     
