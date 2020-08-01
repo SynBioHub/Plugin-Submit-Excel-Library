@@ -21,6 +21,11 @@ def evaluate():
     eval_manifest = request.get_json(force=True)
     files = eval_manifest['manifest']['files']
     
+    #temp
+    data = str(eval_manifest)
+    with open(os.path.join(cwd,"eval_manifest_recieved.txt"), 'w') as temp:
+        manifest_file.write(data) 
+    
     eval_response_manifest = {"manifest":[]}
     
     for file in files:
