@@ -55,13 +55,15 @@ def evaluate():
         eval_response_manifest["manifest"].append({
             "filename": file_name,
             "requirement": useableness})
-    print(eval_response_manifest)   
+    with open(os.path.join(cwd,"eval_manifest_response.txt"), 'w') as temp:
+        temp.write(str(eval_response_manifest))   
     return jsonify(eval_response_manifest)
 
 
 @app.route("/run", methods=["POST"])
 def run():
-    print("RUN ENDPOINT")
+    with open(os.path.join(cwd,"run_recieved.txt"), 'w') as temp:
+        temp.write("run endpoint run")
     cwd = os.getcwd()
     
     zip_path_in = os.path.join(cwd, "To_zip")
