@@ -62,9 +62,11 @@ def evaluate():
 
 @app.route("/run", methods=["POST"])
 def run():
+
+    cwd = os.getcwd()
+    
     with open(os.path.join(cwd,"run_recieved.txt"), 'w') as temp:
         temp.write("run endpoint run")
-    cwd = os.getcwd()
     
     zip_path_in = os.path.join(cwd, "To_zip")
     zip_path_out = os.path.join(cwd, "Zip")
