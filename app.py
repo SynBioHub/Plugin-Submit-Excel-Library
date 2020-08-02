@@ -37,7 +37,7 @@ def evaluate():
         ########## REPLACE THIS SECTION WITH OWN RUN CODE #################
         acceptable_types = {'application/vnd.ms-excel',
                             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}
-        
+
         #could change what appears in the useful_types based on the file content
         useful_types = {}
         
@@ -55,12 +55,13 @@ def evaluate():
         eval_response_manifest["manifest"].append({
             "filename": file_name,
             "requirement": useableness})
-       
+    print(eval_response_manifest)   
     return jsonify(eval_response_manifest)
 
 
 @app.route("/run", methods=["POST"])
 def run():
+    print("RUN ENDPOINT")
     cwd = os.getcwd()
     
     zip_path_in = os.path.join(cwd, "To_zip")
