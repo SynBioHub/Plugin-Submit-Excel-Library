@@ -100,9 +100,9 @@ def run():
             file_url = file['url']
             data = str(file)
             
-            #TEMP
-            with open(os.path.join(cwd,"manifest_recieved.txt"), 'w') as temp:
-                manifest_file.write(data) 
+            # #TEMP
+            # with open(os.path.join(cwd,"manifest_recieved.txt"), 'w') as temp:
+            #     temp.write(data) 
            
             converted_file_name = f"{file_name}.converted"
             file_path_out = os.path.join(zip_path_in, converted_file_name)
@@ -127,7 +127,7 @@ def run():
             ontology = pd.read_excel(file_path, header=None, sheet_name= "Ontology Terms", skiprows=3, index_col=0)
             ontology= ontology.to_dict("dict")[1]
             doc = write_sbol(filled_library, filled_library_metadata, filled_description, ontology)
-        
+            print(doc)
             doc.write(file_path_out)
             ################## END SECTION ####################################
         
