@@ -19,9 +19,7 @@ from sbol2 import Document, Component, ComponentDefinition
 from sbol2 import BIOPAX_DNA, Sequence, SBOL_ENCODING_IUPAC, Config
 
 
-#cwd = os.path.dirname(os.path.abspath("__file__")) #get current working directory
-#path_blank = os.path.join(cwd, "templates/darpa_template_blank.xlsx")
-#path_filled = os.path.join(cwd, "darpa_template.xlsx")
+
 
 
 #Read in template and filled spreadsheet for the Parts library
@@ -76,22 +74,6 @@ def read_library(path, start_row, nrows, description_row, use_cols = [0, 1],
     
     return (basic_DNA_parts, metadata, description)
 
-#Values for specific darpa.template
-#start_row = 13
-#nrows = 8
-#description_row = 9
-
-#filled_library, filled_library_metadata, filled_description = read_library(path_filled,  
-#                start_row = start_row, nrows = nrows, description_row = description_row)
-#blank_library, blank_library_metadata, blank_description = read_library(path_blank,  
-#                start_row = start_row, nrows = nrows, description_row = description_row)
-
-
-#ontology = pd.read_excel(path_filled, header=None, sheet_name= "Ontology Terms", skiprows=3, index_col=0)
-#ontology= ontology.to_dict("dict")[1]
-
-
-#Quality control spreadsheet
 
 #Description
 def quality_check(filled_library, blank_library, filled_metadata, blank_metadata, filled_description,
@@ -245,4 +227,24 @@ def write_sbol(filled_library, filled_library_metadata, filled_description, onto
     
     return(doc)
     
-#Doc = write_sbol(filled_library, filled_library_metadata, filled_description)
+
+
+# cwd = os.path.dirname(os.path.abspath("__file__")) #get current working directory
+# path_blank = os.path.join(cwd, "templates/darpa_template_blank.xlsx")
+# path_filled = os.path.join("C:\\Users\\JVM\\Downloads\\build-request-template_BsPpVn.xlsx")
+# file_path_out = "C:\\Users\\JVM\\Downloads\\converted.xml"
+
+# start_row = 13
+# nrows = 8
+# description_row = 9
+
+# filled_library, filled_library_metadata, filled_description = read_library(path_filled,  
+#                 start_row = start_row, nrows = nrows, description_row = description_row)
+# blank_library, blank_library_metadata, blank_description = read_library(path_blank,  
+#                 start_row = start_row, nrows = nrows, description_row = description_row)
+
+
+# ontology = pd.read_excel(path_filled, header=None, sheet_name= "Ontology Terms", skiprows=3, index_col=0)
+# ontology= ontology.to_dict("dict")[1]
+# doc = write_sbol(filled_library, filled_library_metadata, filled_description, ontology)
+# doc.write(file_path_out)

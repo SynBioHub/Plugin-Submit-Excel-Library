@@ -103,8 +103,9 @@ def run():
             # #TEMP
             # with open(os.path.join(cwd,"manifest_recieved.txt"), 'w') as temp:
             #     temp.write(data) 
+            
            
-            converted_file_name = f"{file_name}.converted"
+            converted_file_name = f"{file_name}.xml.converted"
             file_path_out = os.path.join(zip_path_in, converted_file_name)
         
             ########## REPLACE THIS SECTION WITH OWN RUN CODE #################
