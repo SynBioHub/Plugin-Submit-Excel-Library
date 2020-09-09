@@ -24,8 +24,8 @@ def evaluate():
     #temp
     cwd = os.getcwd()
     data = str(eval_manifest)
-    with open(os.path.join(cwd,"eval_manifest_recieved.txt"), 'w') as temp:
-        temp.write(data) 
+    # with open(os.path.join(cwd,"eval_manifest_recieved.txt"), 'w') as temp:
+    #     temp.write(data) 
     
     eval_response_manifest = {"manifest":[]}
     
@@ -55,8 +55,8 @@ def evaluate():
         eval_response_manifest["manifest"].append({
             "filename": file_name,
             "requirement": useableness})
-    with open(os.path.join(cwd,"eval_manifest_response.txt"), 'w') as temp:
-        temp.write(str(eval_response_manifest))   
+    # with open(os.path.join(cwd,"eval_manifest_response.txt"), 'w') as temp:
+    #     temp.write(str(eval_response_manifest))   
     return jsonify(eval_response_manifest)
 
 
@@ -90,8 +90,8 @@ def run():
     #initiate response manifest
     run_response_manifest = {"results":[]}
     
-    with open(os.path.join(cwd,"run_recieved_man.txt"), 'w') as temp:
-        temp.write(str(run_manifest))
+    # with open(os.path.join(cwd,"run_recieved_man.txt"), 'w') as temp:
+    #     temp.write(str(run_manifest))
     
     for file in files:
         try:
@@ -143,7 +143,7 @@ def run():
     #create manifest file
     file_path_out = os.path.join(zip_path_in, "manifest.json")
     with open(file_path_out, 'w') as manifest_file:
-            manifest_file.write(str(run_manifest)) 
+            manifest_file.write(str(run_response_manifest)) 
         
     #create zip file of converted files and manifest
     shutil.make_archive(zip_path_out, 'zip', zip_path_in)
