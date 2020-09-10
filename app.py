@@ -62,51 +62,34 @@ def evaluate():
 
 @app.route("/run", methods=["POST"])
 def run():
-
     cwd = os.getcwd()
     
-    with open(os.path.join(cwd,"run_recieved.txt"), 'w') as temp:
-        temp.write("run endpoint run")
-    
-    zip_path_in = os.path.join(cwd, "To_zip")
-    zip_path_out = os.path.join(cwd, "Zip")
-    
-    #remove to zip directory if it exists
-    try:
-        shutil.rmtree(zip_path_in, ignore_errors=True)
-    except:
-        print("No To_zip exists currently")
-        
-    #make to zip directory
-    os.makedirs(zip_path_in)
+    #create a temporary directory
+    temp_dir = tempfile.TemporaryDirectory()
+    zip_in_dir_name = temp_dir.name
     
     #take in run manifest
     run_manifest = request.get_json(force=True)
     files = run_manifest['manifest']['files']
     
     #Read in template to compare to
-    file_path = os.path.join(cwd, "templates", "darpa_template_blank.xlsx")
+    template_path = os.path.join(cwd, "templates", "darpa_template_blank.xlsx")
     
     #initiate response manifest
     run_response_manifest = {"results":[]}
     
-    # with open(os.path.join(cwd,"run_recieved_man.txt"), 'w') as temp:
-    #     temp.write(str(run_manifest))
+    #Read in template to compare to
+    file_path = os.path.join(cwd, "templates", "darpa_template_blank.xlsx")
     
-    for file in files:
+    for a_file in files:
         try:
-            file_name = file['filename']
-            file_type = file['type']
-            file_url = file['url']
-            data = str(file)
-            
-            # #TEMP
-            # with open(os.path.join(cwd,"manifest_recieved.txt"), 'w') as temp:
-            #     temp.write(data) 
-            
+            file_name = a_file['filename']
+            file_type = a_file['type']
+            file_url = a_file['url']
+            data = str(a_file)
            
-            converted_file_name = f"{file_name}.xml.converted"
-            file_path_out = os.path.join(zip_path_in, converted_file_name)
+            converted_file_name = f"{file_name}.converted"
+            file_path_out = os.path.join(zip_in_dir_name, converted_file_name)
         
             ########## REPLACE THIS SECTION WITH OWN RUN CODE #################
             #Create own xml files using Excel.py etc.            
@@ -128,7 +111,7 @@ def run():
             ontology = pd.read_excel(file_path, header=None, sheet_name= "Ontology Terms", skiprows=3, index_col=0)
             ontology= ontology.to_dict("dict")[1]
             doc = write_sbol(filled_library, filled_library_metadata, filled_description, ontology)
-            print(doc)
+
             doc.write(file_path_out)
             ################## END SECTION ####################################
         
@@ -136,22 +119,23 @@ def run():
             run_response_manifest["results"].append({"filename":converted_file_name,
                                     "sources":[file_name]})
 
+            
         except Exception as e:
-            print(e)
-            abort(415)
+                print(e)
+                abort(415)
             
     #create manifest file
-    file_path_out = os.path.join(zip_path_in, "manifest.json")
+    file_path_out = os.path.join(zip_in_dir_name, "manifest.json")
     with open(file_path_out, 'w') as manifest_file:
             manifest_file.write(str(run_response_manifest)) 
+      
+    
+    with tempfile.NamedTemporaryFile() as temp_file:
+        #create zip file of converted files and manifest
+        shutil.make_archive(temp_file.name, 'zip', zip_in_dir_name)
         
-    #create zip file of converted files and manifest
-    shutil.make_archive(zip_path_out, 'zip', zip_path_in)
-    
-    #clear To_zip directory
-    shutil.rmtree(zip_path_in, ignore_errors=True)
-    
-    return send_file(f"{zip_path_out}.zip")
-    
-    # #delete zip file
-    # os.remove(f"{zip_path_out}.zip")
+        #delete zip in directory
+        shutil.rmtree(zip_in_dir_name)
+        
+        #return zip file
+        return send_file(f"{temp_file.name}.zip")
