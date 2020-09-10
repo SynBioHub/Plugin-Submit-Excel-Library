@@ -1,9 +1,9 @@
 from flask import Flask, request, abort, send_file, jsonify
-import os, shutil, glob, random, string
+import os, shutil, glob, random, string, tempfile
 import pandas as pd
 from Excel import read_library, quality_check, write_sbol
 from sbol2 import *
-#import all functions from .py files
+
 
 app = Flask(__name__)
 
@@ -78,9 +78,6 @@ def run():
     #initiate response manifest
     run_response_manifest = {"results":[]}
     
-    #Read in template to compare to
-    file_path = os.path.join(cwd, "templates", "darpa_template_blank.xlsx")
-    
     for a_file in files:
         try:
             file_name = a_file['filename']
@@ -101,14 +98,14 @@ def run():
             filled_library, filled_library_metadata, filled_description = read_library(file_url, 
                         start_row = start_row, nrows = nrows, description_row = description_row)
 
-            blank_library, blank_library_metadata, blank_description = read_library(file_path,  
+            blank_library, blank_library_metadata, blank_description = read_library(template_path,  
                         start_row = start_row, nrows = nrows, description_row = description_row)
 
             quality_check(filled_library, blank_library, filled_library_metadata, 
                       blank_library_metadata, filled_description, blank_description,
                       nrows=nrows, description_row=description_row)
 
-            ontology = pd.read_excel(file_path, header=None, sheet_name= "Ontology Terms", skiprows=3, index_col=0)
+            ontology = pd.read_excel(template_path, header=None, sheet_name= "Ontology Terms", skiprows=3, index_col=0)
             ontology= ontology.to_dict("dict")[1]
             doc = write_sbol(filled_library, filled_library_metadata, filled_description, ontology)
 
