@@ -1,7 +1,7 @@
 from flask import Flask, request, abort, send_file, jsonify
 import os, shutil, glob, random, string, tempfile
 import pandas as pd
-from Excel import read_library, quality_check, write_sbol
+from excel2sbol.functions import read_library, quality_check, write_sbol
 from sbol2 import *
 
 
