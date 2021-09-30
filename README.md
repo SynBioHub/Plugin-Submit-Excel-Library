@@ -1,3 +1,5 @@
+## NOW REPLACED BY PLUGIN-SUBMIT-EXCEL2SBOL REPOSITORY
+
 ## Spreadsheet Plugin for SynBioHub
 
 Synthetic Biology is a discipline that connects many disciplines and heterogeneous researchers.
